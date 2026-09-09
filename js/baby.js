@@ -26,8 +26,8 @@ babyObj.prototype.init = function()
 babyObj.prototype.draw = function()
 {
 	//lerp x,y bigfish
-	this.x = lerpDistance(mom.x, this.x, 0.98)	
-	this.y = lerpDistance(mom.y, this.y, 0.98)
+	this.x = lerpDistance(mom.x, this.x, movementRatio())
+	this.y = lerpDistance(mom.y, this.y, movementRatio())
 
 	//delta angle;
 	//Math.atan(y,x)
@@ -65,10 +65,11 @@ babyObj.prototype.draw = function()
 
 	//baby body count
 	this.babyBodyTimer += deltaTime;
-	if (this.babyBodyTimer > 300)
+	var fadeInterval = difficulties[settings.difficulty].fadeInterval;
+	if (this.babyBodyTimer >= fadeInterval)
 	{
 		this.babyBodyCount = this.babyBodyCount + 1;
-		this.babyBodyTimer %= 300;
+		this.babyBodyTimer %= fadeInterval;
 		if (this.babyBodyCount > 19)
 		{
 			this.babyBodyCount = 19;
@@ -86,7 +87,7 @@ babyObj.prototype.draw = function()
 
 	var babyTailCount = this.babyTailCount;
 	ctx1.drawImage(babyTail[babyTailCount],-babyTail[babyTailCount].width * 0.5 + 23, -babyTail[babyTailCount].height * 0.5);
-	var babyBodyCount = this.babyBodyCount;	
+	var babyBodyCount = this.babyBodyCount;
 	ctx1.drawImage(babyBody[babyBodyCount],-babyBody[babyBodyCount].width * 0.5, -babyBody[babyBodyCount].height * 0.5);
 	var babyEyeCount = this.babyEyeCount;
 	ctx1.drawImage(babyEye[babyEyeCount], -babyEye[babyEyeCount].width * 0.5, -babyEye[babyEyeCount].height * 0.5);

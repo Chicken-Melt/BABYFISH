@@ -2,20 +2,19 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>tinyHeart</title>
+	<title>BABYFISH</title>
 	<style type="text/css">
 	body {
 		padding-top: 10px;
 	}
 	.all_bg {
-		width: 800px;
-		height: 600px;
+		width: min(800px, 100%);
 		margin: 0px auto;
 	}
 	#allcanvas {
 		position: relative;
-		width: 800px;
-		height: 600px;
+		width: 100%;
+		aspect-ratio: 4 / 3;
 		margin: 0px;
 	}
 	#canvas1 {
@@ -24,19 +23,51 @@
 		left: 0;
 		z-index: 1;
 	}
-	#canvas1 {
+	#canvas2 {
 		position: absolute;
 		bottom: 0;
 		left: 0;
 		z-index: 0;
 	}
-	</style>
+
+    canvas { width: 100%; height: 100%; }
+    body { background: #102733; color: #eefaff; font-family: system-ui, sans-serif; }
+    .controls { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 16px 0; }
+    button, select { font: inherit; padding: 8px 12px; border-radius: 8px; }
+    button { cursor: pointer; background: #9ee5d4; border: 0; color: #102733; }
+    input { vertical-align: middle; }
+    .help { font-size: 14px; color: #b9d5df; }
+    #game-over { position: absolute; inset: 0; z-index: 2; background: #102733aa; align-items: center; justify-content: center; flex-direction: column; }
+    #game-over:not([hidden]) { display: flex; }
+    .feed-clock { padding: 12px 16px; margin: 12px 0; border: 2px solid #9ee5d4; border-radius: 10px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .feed-clock.urgent { border-color: #ffb55c; color: #ffcf91; }
+    .feed-clock progress { display: block; width: 100%; height: 10px; margin-top: 8px; accent-color: #9ee5d4; }
+    .feed-clock.urgent progress { accent-color: #ffb55c; }
+    #game-over h2 { font-size: 36px; margin-bottom: 0; }
+    </style>
 </head>
 <body>
 	<div class="all_bg">
-		<div id="allcanvas">
+        <h1>BABYFISH</h1>
+        <div class="controls">
+            <label>Difficulty <select id="difficulty"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select></label>
+            <label>Fish speed <input id="fish-speed" type="range" min="0.5" max="2" step="0.25" value="1"> <output id="speed-value" for="fish-speed">1×</output></label>
+            <button id="restart" type="button">Restart game</button>
+        </div>
+        <p class="help">Move your mouse to guide the big fish. Collect fruit and feed the baby before it fades. Difficulty starts a new game; speed changes both fish immediately.</p>
+        <p id="difficulty-help" class="help"></p>
+        <div id="feed-clock" class="feed-clock">
+            <span id="feed-time">Next feed in: 6.0s</span>
+            <progress id="feed-progress" max="1" value="1" aria-label="Time remaining before the baby needs food"></progress>
+            <span id="feed-warning" role="status" aria-live="polite"></span>
+        </div>
+        <div id="allcanvas">
 			<canvas id="canvas1" width="800" height="600"></canvas>
-			<canvas id="canvas2" width="800" height="600"></canvas>
+            <canvas id="canvas2" width="800" height="600"></canvas>
+            <div id="game-over" hidden role="dialog" aria-labelledby="over-title">
+                <h2 id="over-title">Game over</h2><p id="final-score"></p>
+                <button id="play-again" type="button">Play again</button>
+            </div>
 		</div>
 	</div>
 	<script type="text/javascript" src="js/main.js"></script>

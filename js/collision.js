@@ -40,6 +40,7 @@ function momBabyCollision()
 		{
 			//baby recover
 			baby.babyBodyCount = 0;
+			baby.babyBodyTimer = 0;
 			mom.momBodyCount = 0;
 			//score update
 			data.addScore();

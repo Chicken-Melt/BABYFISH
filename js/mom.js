@@ -22,8 +22,8 @@ momObj.prototype.init = function()
 momObj.prototype.draw = function()
 {
 	//lerp x.y
-	this.x = lerpDistance(mx, this.x, 0.98);//ratio large, move slow
-	this.y = lerpDistance(my, this.y, 0.98);
+	this.x = lerpDistance(mx, this.x, movementRatio());//ratio large, move slow
+	this.y = lerpDistance(my, this.y, movementRatio());
 
 	//delta angle;
 	//Math.atan(y,x)

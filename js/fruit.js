@@ -20,7 +20,7 @@ fruitObj.prototype.init = function()
 		this.y[i] = 0;
 		this.spd[i] = Math.random() * 0.017 + 0.003;
 		this.fruitType[i] = "";
-		this.born(i);
+		if (i < difficulties[settings.difficulty].fruitCount) this.born(i);
 		this.aneNo[i] = Math.floor(Math.random()*ane.num);;
 	}
 	this.orange.src = "./src/fruit.png";
@@ -51,7 +51,7 @@ fruitObj.prototype.draw = function()
 				}
 			else
 				{
-					this.y[i] -= this.spd[i] * 7 * deltaTime;
+					this.y[i] -= this.spd[i] * 7 * deltaTime * difficulties[settings.difficulty].fruitSpeed;
 					// ctx2.drawImage(pic,this.x[i] - this.l[i] * 0.5,this.y[i] - this.l[i] * 0.5, this.l[i], this.l[i]);
 				}
 					ctx2.drawImage(pic,this.x[i] - this.l[i] * 0.5,this.y[i] - this.l[i] * 0.5, this.l[i], this.l[i]);
@@ -61,7 +61,7 @@ fruitObj.prototype.draw = function()
 					this.alive[i] = false;
 				}
 		}
-		
+
 	}
 }
 
@@ -93,7 +93,7 @@ function fruitMonitor()
 	{
 		if(fruit.alive[i]) num++;
 	}
-	if ( num < 15) 
+	if ( num < difficulties[settings.difficulty].fruitCount)
 	{
 		sendFruit();//send
 		return;
@@ -104,7 +104,7 @@ function sendFruit()
 {
 	for(var i = 0; i < fruit.num; i++)
 	{
-		if (!fruit.alive[i]) 
+		if (!fruit.alive[i])
 		{
 			fruit.born(i);
 			return;
@@ -115,7 +115,7 @@ function sendFruit()
 fruitObj.prototype.update = function()
 {
 	var num = 0;
-	for (var i = 0; i < this.num; i++) 
+	for (var i = 0; i < this.num; i++)
 	{
 		if (this.alive[i]) num++;
 	}
